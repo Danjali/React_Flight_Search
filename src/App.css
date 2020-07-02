@@ -1,0 +1,78 @@
+.app {
+  text-align: center;
+  background-color: #282c34;
+  color: white;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.Search-tool {
+  float: left;
+}
+
+.appContent {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.itemList {
+  margin: 0 auto;
+  width: 700px;
+}
+ul {
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+ul li {
+  float: left; 
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+ul li:after {
+  content: "\A";
+  white-space: pre;
+}
+.imgWrapper {
+  height: 90px;
+  width: 90px;
+}
+.imgWrapper img {
+  height: 100%;
+  width: 100%;
+}
+.listInner {
+  margin: 0 15px;
+}
+.listInner h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+.bookButton {
+  margin: 25px;
+}
