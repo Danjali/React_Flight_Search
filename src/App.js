@@ -4,7 +4,7 @@ import FlightData from "./FlightData";
 import SearchFilter from "./components/SearchFilter";
 import DatePicker from "./components/DatePicker";
 import CustomSelect from "./components/CustomSelect";
-import { parseDate } from "./utility/util";
+import { parseDate, getTimeDifference, getFlightData} from "./utility/util";
 import { faTruckMonster } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     destinationCity: "",
     journeyDate: null,
     returnDate: null,
-    numOfPassenger: 1,
+    numOfPassengers: 1,
     isOneWayFlight: true,
   };
 
@@ -24,7 +24,7 @@ function App() {
   const [availableOneWayFlightData, setAvailableOneWayFlights] = useState([]);
   const [availableReturnFlightData, setAvailableReturnFlights] = useState([]);
   const [cityList, setCityList] = useState([]);
-  const [travelType, setTravelType] = useState("");
+  // const [travelType, setTravelType] = useState("");
   const [showFlights, setShowFlights] = useState(false);
 
   const {
@@ -32,7 +32,9 @@ function App() {
     destinationCity,
     journeyDate,
     returnDate,
-    numOfPassenger,
+    journeyDateObj,
+    returnDateObj,
+    numOfPassengers,
     isOneWayFlight,
   } = userInput;
 
@@ -43,50 +45,24 @@ function App() {
 
   const handleDateChange = (date, flightType) => {
     const keyName = flightType === "oneWay" ? "journeyDate" : "returnDate";
-    setUserInput({ ...userInput, [keyName]: parseDate(date) });
+    setUserInput({
+      ...userInput,
+      [keyName]: parseDate(date),
+      [`${keyName}Obj`]: date,
+    });
   };
 
   const handlePassengerChange = (selectedOption) => {
-    setUserInput({ ...userInput, numOfPassenger: selectedOption.value });
-  };
-
-  const getFlightData = (data, origin, destination, journeyDate) => {
-    console.log(travelType);
-    const filterFlights = data.filter((item) => {
-      if (
-        item.origin === origin &&
-        item.destination === destination &&
-        item.date === journeyDate
-      ) {
-        return true;
-      }
-      return false;
-    });
-    return filterFlights;
-  };
-
-  const getReturnFlightData = (data, origin, destination, returnDate) => {
-    console.log(travelType);
-    const filterFlights = data.filter((item) => {
-      if (
-        item.destination === origin &&
-        item.origin === destination &&
-        item.date === returnDate
-      ) {
-        return true;
-      }
-      return false;
-    });
-    return filterFlights;
+    setUserInput({ ...userInput, numOfPassengers: selectedOption.value });
   };
 
   const searchFlights = () => {
     setAvailableOneWayFlights(
-      getFlightData(flightData, originCity, destinationCity, journeyDate)
+      getFlightData(flightData, originCity, destinationCity, journeyDate, numOfPassengers)
     );
     if (returnDate) {
       setAvailableReturnFlights(
-        getReturnFlightData(flightData, originCity, destinationCity, returnDate)
+        getFlightData(flightData, destinationCity, originCity, returnDate, numOfPassengers)
       );
     }
     setShowFlights(true);
@@ -95,6 +71,10 @@ function App() {
   const fetchJson = async (url) => {
     const response = await fetch(url);
     return response.json();
+  };
+
+  const handleTabChange = (isOneWayFlight) => {
+    setUserInput({ ...userInput, isOneWayFlight: isOneWayFlight });
   };
 
   useEffect(() => {
@@ -116,14 +96,14 @@ function App() {
       <div className="appHeader">Flight Search App</div>
       <div>
         <button
-          className={travelType === "oneWay" && "active"}
-          onClick={() => setTravelType("oneWay")}
+          className={isOneWayFlight && "active"}
+          onClick={() => handleTabChange(true)}
         >
           One Way
         </button>
         <button
-          className={travelType === "return" && "active"}
-          onClick={() => setTravelType("return")}
+          className={!isOneWayFlight && "active"}
+          onClick={() => handleTabChange(false)}
         >
           Return
         </button>
@@ -140,13 +120,13 @@ function App() {
         />
         <DatePicker
           flightType="oneWay"
-          startDate={journeyDate}
+          startDate={journeyDateObj}
           handleDateChange={handleDateChange}
         />
-        {travelType === "return" && (
+        {!isOneWayFlight && (
           <DatePicker
-            flightType="return"
-            startDate={returnDate}
+            // flightType={isOneWayFlight}
+            startDate={returnDateObj}
             handleDateChange={handleDateChange}
           />
         )}

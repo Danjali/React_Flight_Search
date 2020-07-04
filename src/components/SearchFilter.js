@@ -2,7 +2,6 @@ import React from "react";
 import Select from "react-select";
 
 const SearchFilter = ({ flightType, cityList, handleSelectChange, excludedCity }) => {
-  console.log(flightType==="oneWay")
   return (
     <Select
       id="select-city"

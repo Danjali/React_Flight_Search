@@ -59,14 +59,17 @@
   width: 700px;
 }
 ul {
-  flex-direction: row;
+  flex-direction: column;
+  display: flex;
   margin: 0;
   padding: 0;
 }
 ul li {
-  float: left; 
+  /* float: left;  */
+  align-items: center;
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
   width: 100%;
