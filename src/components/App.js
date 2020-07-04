@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
+import "../styles/App.css";
 import FlightData from "./FlightData";
-import SearchFilter from "./components/SearchFilter";
-import DatePicker from "./components/DatePicker";
-import CustomSelect from "./components/CustomSelect";
-import { parseDate, getTimeDifference, getFlightData} from "./utility/util";
-import { faTruckMonster } from "@fortawesome/free-solid-svg-icons";
+import SearchFilterInput from "./common/SearchFilterInput";
+import DatePickerInput from "./common/DatePickerInput";
+import CustomSelectInput from "./common/CustomSelectInput";
+import { parseDate, getFlightData} from "../utility/util";
+import {defaultUserState} from "../constants/constants";
+import {fetchFlightData} from "../api/api";
 
 function App() {
-  // check wheather any need of adding async await and loaders
-  // const [isLoading, setIsLoading] = useState(false);
-  const DEFAULT_USER_STATE = {
-    originCity: "",
-    destinationCity: "",
-    journeyDate: null,
-    returnDate: null,
-    numOfPassengers: 1,
-    isOneWayFlight: true,
-  };
-
-  const [userInput, setUserInput] = useState(DEFAULT_USER_STATE);
+  const [userInput, setUserInput] = useState(defaultUserState);
   const [flightData, setFlightData] = useState([]);
-  const [availableOneWayFlightData, setAvailableOneWayFlights] = useState([]);
-  const [availableReturnFlightData, setAvailableReturnFlights] = useState([]);
+  const [oneWayFlightData, setAvailableOneWayFlights] = useState([]);
+  const [returnFlightData, setAvailableReturnFlights] = useState([]);
   const [cityList, setCityList] = useState([]);
-  // const [travelType, setTravelType] = useState("");
   const [showFlights, setShowFlights] = useState(false);
 
   const {
@@ -60,7 +49,7 @@ function App() {
     setAvailableOneWayFlights(
       getFlightData(flightData, originCity, destinationCity, journeyDate, numOfPassengers)
     );
-    if (returnDate) {
+    if (!isOneWayFlight) {
       setAvailableReturnFlights(
         getFlightData(flightData, destinationCity, originCity, returnDate, numOfPassengers)
       );
@@ -68,27 +57,28 @@ function App() {
     setShowFlights(true);
   };
 
-  const fetchJson = async (url) => {
-    const response = await fetch(url);
-    return response.json();
-  };
-
   const handleTabChange = (isOneWayFlight) => {
     setUserInput({ ...userInput, isOneWayFlight: isOneWayFlight });
   };
 
+  const handleShowHideDetails = (flightKey, data, isOneWayFlight) => {
+    const newFlighData = data.map((item, key) => {
+      if (flightKey === key) {
+        item.showSubFlights = !item.showSubFlights;
+      }
+      return item;
+    });
+    isOneWayFlight ? setAvailableOneWayFlights(newFlighData) : setAvailableReturnFlights(newFlighData);
+  };
+
   useEffect(() => {
-    fetchJson("https://tw-frontenders.firebaseio.com/advFlightSearch.json")
-      .then((response) => {
-        const uniqueCity = [
-          ...new Set(response.map((item) => item.origin)),
-        ].map((item) => {
-          return { value: item, label: item };
-        });
-        setCityList(uniqueCity);
-        setFlightData(response);
-      })
-      .catch((error) => console.log(error));
+    (async () => {
+      const flightResponse = await fetchFlightData();
+      if (flightResponse) {
+        setFlightData(flightResponse.data);
+        setCityList(flightResponse.uniqueCity);
+      }
+    })();
   }, []);
 
   return (
@@ -107,45 +97,44 @@ function App() {
         >
           Return
         </button>
-        <SearchFilter
+        <SearchFilterInput
           excludedCity={destinationCity}
           handleSelectChange={handleCityChange}
           cityList={cityList}
           flightType="oneWay"
         />
-        <SearchFilter
+        <SearchFilterInput
           excludedCity={originCity}
           cityList={cityList}
           handleSelectChange={handleCityChange}
         />
-        <DatePicker
+        <DatePickerInput
           flightType="oneWay"
           startDate={journeyDateObj}
           handleDateChange={handleDateChange}
         />
         {!isOneWayFlight && (
-          <DatePicker
-            // flightType={isOneWayFlight}
+          <DatePickerInput
             startDate={returnDateObj}
             handleDateChange={handleDateChange}
           />
         )}
-        <CustomSelect handleSelectChange={handlePassengerChange} />
+        <CustomSelectInput handleSelectChange={handlePassengerChange} size={numOfPassengers}/>
         <button onClick={searchFlights}>Search</button>
         {showFlights && (
           <div>
             <div className={returnDate ? "leftAlign" : "appContent"}>
               {originCity} to {destinationCity}
               <br />
-              {availableOneWayFlightData.length} flights found {journeyDate}
-              <FlightData id="flight-data" data={availableOneWayFlightData} />
+              {oneWayFlightData.length} flights found {journeyDate}
+              <FlightData id="flight-data" data={oneWayFlightData} setShowHideDetails={handleShowHideDetails} />
             </div>
             {returnDate && (
               <div className="rightAlign">
                 {destinationCity} to {originCity}
                 <br />
-                {availableReturnFlightData.length} flights found {returnDate}
-                <FlightData id="flight-data" data={availableReturnFlightData} />
+                {returnFlightData.length} flights found {returnDate}
+                <FlightData id="flight-data" data={returnFlightData} isOneWayFlight={!isOneWayFlight} setShowHideDetails={handleShowHideDetails}/>
               </div>
             )}
           </div>

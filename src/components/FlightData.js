@@ -1,21 +1,42 @@
 import React from "react";
 import SubFlight from "./SubFlight";
-import { convertTime, getFlightDuration} from "./utility/util";
+import { convertTime, getFlightDuration } from "../utility/util";
+import {
+  faPlane,
+  faSms,
+  faPlaneDeparture,
+  faPlaneArrival,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const FlightData = ({
-  data, // passed callback prop
+  data,
+  setShowHideDetails,
+  isOneWayFlight, // passed callback prop
 }) => {
   return (
     <div className="itemList">
       <ul>
         {data.map((item, index) => (
           <li key={index}>
-            <div className="imgWrapper">
-              <i className="fa fa-plane planeIcon" aria-hidden="true"></i>
-            </div>
+             <div className="imgWrapper">
+                <FontAwesomeIcon icon={item.isMultiLine ? faPlane : faSms} />
+              </div>
             <div className="listInner">
               <div>
-                <h2 className="flighCompany">{item.name}</h2>
-                <a className="flighDetailsLink">show Details</a>
+                <h2 className="flighCompany">
+                  {item.isMultiLine ? "Multiple" : item.name}
+                </h2>
+                {item.isMultiLine ? (
+                  <a
+                    href="#"
+                    className="flighDetailsLink"
+                    onClick={() => setShowHideDetails(index, data, !isOneWayFlight)}
+                  >
+                    {item.showSubFlights ? "Hide" : "Show"} Details
+                  </a>
+                ) : (
+                  <a>{item.flightNo}</a>
+                )}
               </div>
             </div>
             <div className="listInner">
@@ -38,12 +59,12 @@ const FlightData = ({
             <div>
               <button className="flightBookButton">Book</button>
             </div>
-            {item.isMultiLine && (
+            {item.isMultiLine && item.showSubFlights &&(
               <div>
-                <p>LayOver Time :: {convertTime(item.layOverTime)}</p>
+                <p>Layover Time :: {convertTime(item.layOverTime)}</p>
                 <ul>
                   {item.subFlightData.map((subFlight, key) => {
-                    return <SubFlight key={key} subFlight={subFlight} />;
+                    return <SubFlight key={key} subFlight={subFlight}/>;
                   })}
                 </ul>
               </div>

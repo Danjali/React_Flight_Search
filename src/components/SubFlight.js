@@ -1,5 +1,5 @@
 import React from "react";
-import { getFlightDuration } from "./utility/util";
+import { getFlightDuration } from "../utility/util";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlane, faSms } from "@fortawesome/free-solid-svg-icons";
 

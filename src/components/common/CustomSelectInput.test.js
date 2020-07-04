@@ -1,14 +1,14 @@
 import React from "react";
 import { shallow } from "enzyme";
-import CustomSelect from "./CustomSelect";
-import { passengerSize } from "../constant/constants";
+import CustomSelectInput from "./CustomSelectInput";
+import { passengerSize } from "../../constant/constants";
 
-describe("<CustomSelect/>", () => {
+describe("<CustomSelectInput/>", () => {
   let wrapper;
   let search;
   beforeEach(() => {
     const handleSelectChange = jest.fn();
-    wrapper = shallow(<CustomSelect handleSelectChange={handleSelectChange} />);
+    wrapper = shallow(<CustomSelectInput handleSelectChange={handleSelectChange} size={2}/>);
     search = wrapper.find("#select-passenger-size");
   });
   it("verifies if select component is rendered", () => {
@@ -16,6 +16,7 @@ describe("<CustomSelect/>", () => {
   });
   it("verifies select component with props", () => {
     expect(search.props().placeholder).toBe("Select Passengers");
+    expect(search.props().value).toEqual({"label": 2, "value": 2})
     expect(search.props().options).toBe(passengerSize);
     search.at(0).simulate("change");
   });

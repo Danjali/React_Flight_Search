@@ -1,10 +1,12 @@
 import React from "react";
 import Select from "react-select";
-import { passengerSize } from "../constant/constants";
+import { passengerSize } from "../../constants/constants";
 
-const CustomSelect = ({ handleSelectChange }) => {
+const CustomSelectInput = ({ handleSelectChange, size }) => {
+  let sizeValue = size? {value: size, label: size}: {value:'', size:''}
   return (
     <Select
+      value={sizeValue}
       id="select-passenger-size"
       placeholder="Select Passengers"
       onChange={handleSelectChange}
@@ -17,4 +19,4 @@ const CustomSelect = ({ handleSelectChange }) => {
   );
 };
 
-export default CustomSelect;
+export default CustomSelectInput;
