@@ -13,6 +13,7 @@ export const defaultUserState = {
   returnDate: "",
   numOfPassengers: 1,
   isOneWayFlight: true,
+  priceRange: { min: 0, max: 15000 },
 };
 
 export const DAYS = [
@@ -22,7 +23,7 @@ export const DAYS = [
   "Wednesday",
   "Thursday",
   "Friday",
-  "Saturday"
+  "Saturday",
 ];
 
 export const MONTHS = [
@@ -37,7 +38,7 @@ export const MONTHS = [
   "September",
   "October",
   "November",
-  "December"
+  "December",
 ];
 
 // mock data for unit testing

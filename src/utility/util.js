@@ -44,7 +44,8 @@ export const getFlightData = (
   originCity,
   destinationCity,
   userDate,
-  numOfPassengers
+  numOfPassengers,
+  priceRange
 ) => {
   let directFlight = [];
   let originCityFlight = [];
@@ -86,5 +87,9 @@ export const getFlightData = (
       }
     }
   }
-  return [...directFlight, ...connectingFlights];
+  return [...directFlight, ...connectingFlights]
+    .filter(
+      (item) => priceRange.min <= item.price && item.price <= priceRange.max
+    )
+    .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
 };

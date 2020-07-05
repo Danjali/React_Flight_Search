@@ -4,6 +4,7 @@ import FlightData from "./FlightData";
 import SearchFilterInput from "./common/SearchFilterInput";
 import DatePickerInput from "./common/DatePickerInput";
 import CustomSelectInput from "./common/CustomSelectInput";
+import PriceFilter from "./common/PriceFilter";
 import { parseDate, getFlightData } from "../utility/util";
 import { defaultUserState } from "../constants/constants";
 import { fetchFlightData } from "../api/api";
@@ -28,6 +29,7 @@ function App() {
     returnDateObj,
     numOfPassengers,
     isOneWayFlight,
+    priceRange,
   } = userInput;
 
   const handleCityChange = (selectedOption, flightType) => {
@@ -55,7 +57,8 @@ function App() {
         originCity,
         destinationCity,
         journeyDate,
-        numOfPassengers
+        numOfPassengers,
+        priceRange
       )
     );
     if (!isOneWayFlight) {
@@ -65,7 +68,8 @@ function App() {
           destinationCity,
           originCity,
           returnDate,
-          numOfPassengers
+          numOfPassengers,
+          priceRange
         )
       );
     }
@@ -86,6 +90,10 @@ function App() {
     isOneWayFlight
       ? setAvailableOneWayFlights(newFlighData)
       : setAvailableReturnFlights(newFlighData);
+  };
+
+  const handlePriceChange = (priceRange) => {
+    setUserInput({ ...userInput, priceRange: priceRange });
   };
 
   const isValidSearch = () => {
@@ -166,6 +174,10 @@ function App() {
             <CustomSelectInput
               handleSelectChange={handlePassengerChange}
               size={numOfPassengers}
+            />
+            <PriceFilter
+              priceRange={priceRange}
+              handlePriceChange={handlePriceChange}
             />
             <button
               className="button blueBtn"
