@@ -82,10 +82,11 @@ function App() {
 
   const handleShowHideDetails = (flightKey, data, isOneWayFlight) => {
     const newFlighData = data.map((item, key) => {
-      if (flightKey === key) {
-        item.showSubFlights = !item.showSubFlights;
-      }
-      return item;
+      return {
+        ...item,
+        showSubFlights:
+          flightKey === key ? !item.showSubFlights : item.showSubFlights
+      };
     });
     isOneWayFlight
       ? setAvailableOneWayFlights(newFlighData)
@@ -167,6 +168,7 @@ function App() {
             />
             {!isOneWayFlight && (
               <DatePickerInput
+                minDate={journeyDateObj}
                 startDate={returnDateObj}
                 handleDateChange={handleDateChange}
               />
