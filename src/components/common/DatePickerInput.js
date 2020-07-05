@@ -1,4 +1,4 @@
-import React, {useRef } from "react";
+import React, { useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
@@ -11,7 +11,7 @@ const DatePickerInput = ({ flightType, startDate, handleDateChange }) => {
         selected={startDate}
         onChange={(date) => handleDateChange(date, flightType)}
         ref={datepicker}
-        minDate={new Date("2020-11-01")}
+        minDate={new Date()}
         placeholderText={`${
           flightType === "oneWay" ? "Departure" : "Return"
         } Date`}
@@ -19,7 +19,7 @@ const DatePickerInput = ({ flightType, startDate, handleDateChange }) => {
         className="datePicker"
         showDisabledMonthNavigation
       />
-     <img
+      <img
         src={calendarIcon}
         alt="calendarIcon"
         onClick={() => datepicker.current.setOpen(true)}
