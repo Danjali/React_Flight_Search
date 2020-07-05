@@ -53,9 +53,10 @@ const FlightData = ({
                   <a
                     href="# "
                     className="detailsAnchor"
-                    onClick={() =>
-                      setShowHideDetails(index, data, !isOneWayFlight)
-                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowHideDetails(index, data, !isOneWayFlight);
+                    }}
                   >
                     {item.showSubFlights ? "Hide" : "Show"} Details
                   </a>
