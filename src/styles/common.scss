@@ -1,16 +1,12 @@
-/* // common css */
-
 .mainHeading {
   font-size: 30px;
   font-weight: bold;
   padding: 10px 0 10px 4px;
   border-bottom: 1px solid #575757;
 }
-
 .green {
   color: #83a974;
 }
-
 .button {
   width: 80px;
   padding: 8px;
@@ -22,29 +18,24 @@
   background-color: #be635b;
   opacity: 1;
   transition: all 1s linear;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }
-
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 .blueBtn {
   width: 100px;
   background-color: #3b7ccc;
   color: #fff;
   border: 1px solid #3b7ccc;
 }
-
 .flexOne {
-  flex: 1
+  flex: 1;
 }
-
 .flexThree {
-  flex: 3
+  flex: 3;
 }
-
 .header {
   width: 1200px;
   margin: 0 auto;
@@ -53,91 +44,76 @@
   color: #eee;
   text-align: center;
 }
-
-/* Tab CSS */
 .tab {
   width: 90%;
   border: 1px solid #757575;
   border-radius: 3px;
   border-bottom: none;
+  .button {
+    background-color: #fff;
+    color: #757575;
+    width: 50%;
+    padding: 12px;
+    border: 1px solid #757575;
+    border-bottom: none;
+    border-radius: 0;
+  }
+  .active {
+    color: #fff;
+    background-color: #549be4;
+  }
 }
-
-.tab .button {
-  background-color: #fff;
-  color: #757575;
-  width: 50%;
-  padding: 12px;
-  border: 1px solid #757575;
-  border-bottom: none;
-  border-radius: 0;
-}
-
-.tab .active {
-  color: #fff;
-  background-color: #549be4;
-}
-
 ul {
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
+  li {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
 }
-
-ul li {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 .imgWrapper {
   display: flex;
   height: 50px;
   align-items: center;
 }
-
 .planeIcon {
   align-items: center;
   justify-content: center;
   flex-direction: column;
   display: flex;
 }
-
 .app {
   margin: 0 auto;
   width: 1200px;
   border: 1px solid #575757;
 }
-
 .mainAppWrapper {
   display: flex;
 }
-
 .flightFilterWrapper {
   border-right: 1px solid #557755;
   padding: 20px 5px 0 0;
   width: 25%;
 }
-
 .displayFlex {
   flex: 1;
-  min-width: 25%
+  min-width: 25%;
 }
-
 .flightFilterWrap {
   border: 1px solid #757575;
   padding: 0 6px 10px;
 }
-
 .flightInfo {
   margin: 0 20px;
-}
-
-.flightInfo h2 {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 5px 0;
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0;
+  }
 }
