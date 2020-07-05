@@ -7,8 +7,9 @@ const PriceFilter = ({ priceRange, handlePriceChange }) => {
 
   return (
     <form className="form priceFilter">
-      <h5>Refine flight search</h5>
+      <h5 className="priceRangeTitle">Refine flight search</h5>
       <InputRange
+        className="inputRangeField"
         formatLabel={(value) => `${value} Rs`}
         step={1000}
         maxValue={50000}
