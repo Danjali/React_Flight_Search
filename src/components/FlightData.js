@@ -1,70 +1,104 @@
 import React from "react";
 import SubFlight from "./SubFlight";
-import { convertTime, getFlightDuration } from "../utility/util";
-import {
-  faPlane,
-  faSms,
-  faPlaneDeparture,
-  faPlaneArrival,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getFlightDuration, formatDateString } from "../utility/util";
+import directFlightIcon from "../Images/directFlight.png";
+import mulipleFlightIcon from "../Images/mulipleFlight.png";
+import planeIcon from "../Images/returnPlane.png";
 const FlightData = ({
   data,
   setShowHideDetails,
-  isOneWayFlight, // passed callback prop
+  isOneWayFlight,
+  isReturnFlight,
+  origin,
+  destination,
+  journeyDate,
 }) => {
   return (
     <div className="itemList">
-      <ul>
+      <div className="flightStats">
+        <div className="imgWrapper">
+          <img
+            className={isReturnFlight ? "returnIcon" : "planeIcon"}
+            src={planeIcon}
+            alt="planeIcon"
+          />
+        </div>
+        <div>
+          <h3>
+            {origin} to {destination}
+          </h3>
+          <p className="subInfo">
+            <span>
+              {data.length} flight{data.length > 1 ? "s" : ""} found
+            </span>
+            <span> {formatDateString(journeyDate)}</span>
+          </p>
+        </div>
+      </div>
+      <ul className="mainFlightListing">
         {data.map((item, index) => (
           <li key={index}>
-             <div className="imgWrapper">
-                <FontAwesomeIcon icon={item.isMultiLine ? faPlane : faSms} />
-              </div>
-            <div className="listInner">
-              <div>
+            <div className="imgWrapper">
+              <img
+                src={item.isMultiLine ? mulipleFlightIcon : directFlightIcon}
+                alt="planeIcon"
+              />
+            </div>
+            <div>
+              <div className="flightInfo">
                 <h2 className="flighCompany">
                   {item.isMultiLine ? "Multiple" : item.name}
                 </h2>
                 {item.isMultiLine ? (
                   <a
-                    href="#"
-                    className="flighDetailsLink"
-                    onClick={() => setShowHideDetails(index, data, !isOneWayFlight)}
+                    href="# "
+                    className="detailsAnchor"
+                    onClick={() =>
+                      setShowHideDetails(index, data, !isOneWayFlight)
+                    }
                   >
                     {item.showSubFlights ? "Hide" : "Show"} Details
                   </a>
                 ) : (
-                  <a className="flightNo">{item.flightNo}</a>
+                  <span className="flightNo">{item.flightNo}</span>
                 )}
               </div>
             </div>
-            <div className="listInner">
+            <div className="flightInfo">
               <h2 className="departureInfo">{item.departureTime}</h2>
               <span className="flightOrigin">{item.origin}</span>
             </div>
-            <div className="listInner">
+            <div className="flightInfo">
               <h2 className="destinationInfo">{item.arrivalTime}</h2>
               <span className="flightDestination">{item.destination}</span>
             </div>
-            <div className="listInner">
-              <h2 className="timeDuration">
+            <div className="flightInfo">
+              <h2 className={`"timeDuration" ${item.isMultiLine && "green"}`}>
                 {getFlightDuration(item.departureTime, item.arrivalTime)}
               </h2>
-              <a className="typeOfTravel">{item.isMultiLine ? 'Total Duration': 'Non Stop'}</a>
+              <span className="typeOfTravel">
+                {item.isMultiLine ? "Total Duration" : "Non Stop"}
+              </span>
             </div>
-            <div>
-              <h2 className="flightPrice">{item.price}</h2>
+            <div className="flightInfo">
+              <h2 className="price">&#8377; {item.price}</h2>
             </div>
-            <div>
-              <button className="flightBookButton">Book</button>
+            <div className="flightInfo">
+              <button className="flightBookButton button">Book</button>
             </div>
-            {item.isMultiLine && item.showSubFlights &&(
-              <div>
-                <p className="layOverTime">Layover Time :: {convertTime(item.layOverTime)}</p>
+            {item.isMultiLine && item.showSubFlights && (
+              <div className="subFlightList">
                 <ul>
                   {item.subFlightData.map((subFlight, key) => {
-                    return <SubFlight className="connectingFlightsInfo" key={key} subFlight={subFlight}/>;
+                    return (
+                      <SubFlight
+                        className="connectingFlightsInfo"
+                        key={key}
+                        index={key}
+                        subFlight={subFlight}
+                        layOverTime={item.layOverTime}
+                      />
+                    );
                   })}
                 </ul>
               </div>

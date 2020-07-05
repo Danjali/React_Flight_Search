@@ -4,9 +4,9 @@ const fetchJson = async (url) => {
 };
 
 export const fetchFlightData = async () => {
-    try{
+    try {
         let response = await fetchJson("https://tw-frontenders.firebaseio.com/advFlightSearch.json");
-        if(response){
+        if (response) {
           const uniqueCity = [
             ...new Set(response.map((item) => item.origin)),
           ].map((item) => {

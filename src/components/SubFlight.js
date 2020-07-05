@@ -1,37 +1,43 @@
 import React from "react";
-import { getFlightDuration } from "../utility/util";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlane, faSms } from "@fortawesome/free-solid-svg-icons";
+import { getFlightDuration, convertTime } from "../utility/util";
+import directFlightIcon from "../Images/subFlightIcon.png";
 
-const SubFlight = ({ subFlight }) => {
+const SubFlight = ({ subFlight, layOverTime, index }) => {
   const {
     name,
     flightNo,
     departureTime,
     origin,
     destination,
-    arrivalTime
+    arrivalTime,
   } = subFlight;
   return (
     <li>
       <div className="imgWrapper">
-        <FontAwesomeIcon icon={faSms} />
+        <img className="planeImg" src={directFlightIcon} alt="planeIcon" />
       </div>
-      <div className="listInner">
+      <div className="flightInfo">
         <h2 className="flighCompany">{name}</h2>
         <span className="flighNumber">{flightNo}</span>
       </div>
-      <div className="listInner">
+      <div className="flightInfo">
         <h2 className="departureInfo">{departureTime}</h2>
         <span className="flightOrigin">{origin}</span>
       </div>
-      <div className="listInner">
+      <div className="flightInfo">
         <h2 className="destinationInfo">{arrivalTime}</h2>
         <span className="flightDestination">{destination}</span>
       </div>
-      <div className="listInner">
-        <h2 className="flightDuration">{getFlightDuration(departureTime, arrivalTime)}</h2>
+      <div className="flightInfo">
+        <h2 className="flightDuration">
+          {getFlightDuration(departureTime, arrivalTime)}
+        </h2>
       </div>
+      {index === 0 && (
+        <p className="layOverTime">
+          Layover Time :: {convertTime(layOverTime)}
+        </p>
+      )}
     </li>
   );
 };

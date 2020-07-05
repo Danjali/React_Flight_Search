@@ -1,4 +1,5 @@
-/** utitlity function to convert date object into yyyy/mm/dd format */
+import { DAYS, MONTHS } from "../constants/constants";
+
 export const parseDate = (date) => {
   let month = date.getMonth() + 1;
   month = month > 9 ? month : `0${month}`;
@@ -11,6 +12,12 @@ export const getTotalMinutes = (timeString) => {
   return (
     Number(timeString.split(":")[0] * 60) + Number(timeString.split(":")[1])
   );
+};
+
+export const formatDateString = (date) => {
+  const day = DAYS[date.getDay()];
+  const month = MONTHS[date.getMonth()];
+  return `${day.slice(0, 3)}, ${date.getDate()} ${month} `;
 };
 
 export const convertTime = (userMinutes) => {
@@ -32,14 +39,20 @@ export const getFlightDuration = (departureTime, arrivalTime) => {
   return convertTime(timeDifference);
 };
 
-export const getFlightData = (flightData, originCity, destinationCity, userDate, numOfPassengers) => {
+export const getFlightData = (
+  flightData,
+  originCity,
+  destinationCity,
+  userDate,
+  numOfPassengers
+) => {
   let directFlight = [];
   let originCityFlight = [];
   let destinationCityFlight = [];
-  flightData.forEach(item => {
+  flightData.forEach((item) => {
     if (userDate === item.date) {
       if (item.origin === originCity && item.destination === destinationCity) {
-        directFlight.push({...item, price: item.price * numOfPassengers});
+        directFlight.push({ ...item, price: item.price * numOfPassengers });
       } else if (item.origin === originCity) {
         originCityFlight.push(item);
       } else if (item.destination === destinationCity) {
@@ -51,10 +64,10 @@ export const getFlightData = (flightData, originCity, destinationCity, userDate,
   let connectingFlights = [];
   for (let i = 0; i < originCityFlight.length; i++) {
     for (let j = 0; j < destinationCityFlight.length; j++) {
-      if (
-        originCityFlight[i].destination === destinationCityFlight[j].origin
-      ) {
-        const layOverTime = getTotalMinutes(destinationCityFlight[j].departureTime) - getTotalMinutes(originCityFlight[i].arrivalTime);
+      if (originCityFlight[i].destination === destinationCityFlight[j].origin) {
+        const layOverTime =
+          getTotalMinutes(destinationCityFlight[j].departureTime) -
+          getTotalMinutes(originCityFlight[i].arrivalTime);
         if (layOverTime > 30) {
           connectingFlights.push({
             arrivalTime: destinationCityFlight[j].arrivalTime,

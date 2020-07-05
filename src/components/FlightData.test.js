@@ -30,12 +30,12 @@ describe("<FlightData/>", () => {
     });
     it("verifies if flighDetailsLink is rendered for connecting flights", () => {
       // for connecting flights
-      expect(wrapper.find(".flighDetailsLink").at(0).props().children).toEqual([
+      expect(wrapper.find(".detailsAnchor").at(0).props().children).toEqual([
         "Hide",
         " Details",
       ]);
-      wrapper.find(".flighDetailsLink").at(0).simulate('click');
-      expect(wrapper.find(".flighDetailsLink").at(1).props().children).toEqual([
+      wrapper.find(".detailsAnchor").at(0).simulate("click");
+      expect(wrapper.find(".detailsAnchor").at(1).props().children).toEqual([
         "Show",
         " Details",
       ]);
@@ -103,10 +103,10 @@ describe("<FlightData/>", () => {
       );
     });
     it("verifies if flightPrice is rendered", () => {
-      expect(wrapper.find(".flightPrice").at(0).props().children).toBe("3000");
+      expect(wrapper.find(".price").at(0).props().children).toBe("3000");
       // for connecting flights
-      expect(wrapper.find(".flightPrice").at(1).props().children).toBe("7000");
-      expect(wrapper.find(".flightPrice").at(2).props().children).toBe("8000");
+      expect(wrapper.find(".price").at(1).props().children).toBe("7000");
+      expect(wrapper.find(".price").at(2).props().children).toBe("8000");
     });
     it("verifies if Book button is rendered", () => {
       expect(wrapper.find(".flightBookButton").at(0)).toExist();

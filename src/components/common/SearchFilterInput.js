@@ -4,6 +4,7 @@ import Select from "react-select";
 const SearchFilterInput = ({ flightType, cityList, handleSelectChange, excludedCity }) => {
   return (
     <Select
+      className="customSelect"
       id="select-city"
       placeholder={`Enter ${
         flightType === "oneWay" ? "Origin" : "Destination"
@@ -13,7 +14,6 @@ const SearchFilterInput = ({ flightType, cityList, handleSelectChange, excludedC
       }
       components={{
         IndicatorSeparator: () => null,
-        DropdownIndicator: () => null
       }}
       options={cityList.filter(city => city.value !== excludedCity)}
     />

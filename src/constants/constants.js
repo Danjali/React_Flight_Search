@@ -9,11 +9,36 @@ export const passengerSize = [
 export const defaultUserState = {
   originCity: "",
   destinationCity: "",
-  journeyDate: null,
-  returnDate: null,
+  journeyDate: "",
+  returnDate: "",
   numOfPassengers: 1,
   isOneWayFlight: true,
 };
+
+export const DAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
 
 // mock data for unit testing
 export const flightData = [

@@ -1,10 +1,8 @@
 import React, {useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// CSS Modules, react-datepicker-cssmodules.css
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import calendarIcon from "../../Images/calendar.png";
 const DatePickerInput = ({ flightType, startDate, handleDateChange }) => {
   const datepicker = useRef();
   return (
@@ -18,12 +16,13 @@ const DatePickerInput = ({ flightType, startDate, handleDateChange }) => {
           flightType === "oneWay" ? "Departure" : "Return"
         } Date`}
         dateFormat="yyyy/MM/dd"
-        className="datePicker form-control"
+        className="datePicker"
         showDisabledMonthNavigation
       />
-      <FontAwesomeIcon
+     <img
+        src={calendarIcon}
+        alt="calendarIcon"
         onClick={() => datepicker.current.setOpen(true)}
-        icon={faCalendar}
       />
     </div>
   );
