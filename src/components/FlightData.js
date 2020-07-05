@@ -35,7 +35,7 @@ const FlightData = ({
                     {item.showSubFlights ? "Hide" : "Show"} Details
                   </a>
                 ) : (
-                  <a>{item.flightNo}</a>
+                  <a className="flightNo">{item.flightNo}</a>
                 )}
               </div>
             </div>
@@ -51,7 +51,7 @@ const FlightData = ({
               <h2 className="timeDuration">
                 {getFlightDuration(item.departureTime, item.arrivalTime)}
               </h2>
-              <a className="typeOfTravel">Non Stop</a>
+              <a className="typeOfTravel">{item.isMultiLine ? 'Total Duration': 'Non Stop'}</a>
             </div>
             <div>
               <h2 className="flightPrice">{item.price}</h2>
@@ -61,10 +61,10 @@ const FlightData = ({
             </div>
             {item.isMultiLine && item.showSubFlights &&(
               <div>
-                <p>Layover Time :: {convertTime(item.layOverTime)}</p>
+                <p className="layOverTime">Layover Time :: {convertTime(item.layOverTime)}</p>
                 <ul>
                   {item.subFlightData.map((subFlight, key) => {
-                    return <SubFlight key={key} subFlight={subFlight}/>;
+                    return <SubFlight className="connectingFlightsInfo" key={key} subFlight={subFlight}/>;
                   })}
                 </ul>
               </div>

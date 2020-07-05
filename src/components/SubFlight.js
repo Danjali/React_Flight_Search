@@ -18,19 +18,19 @@ const SubFlight = ({ subFlight }) => {
         <FontAwesomeIcon icon={faSms} />
       </div>
       <div className="listInner">
-        <h2>{name}</h2>
-        <span>{flightNo}</span>
+        <h2 className="flighCompany">{name}</h2>
+        <span className="flighNumber">{flightNo}</span>
       </div>
       <div className="listInner">
-        <h2>{departureTime}</h2>
-        <span>{origin}</span>
+        <h2 className="departureInfo">{departureTime}</h2>
+        <span className="flightOrigin">{origin}</span>
       </div>
       <div className="listInner">
-        <h2>{arrivalTime}</h2>
-        <span>{destination}</span>
+        <h2 className="destinationInfo">{arrivalTime}</h2>
+        <span className="flightDestination">{destination}</span>
       </div>
       <div className="listInner">
-        <h2>{getFlightDuration(departureTime, arrivalTime)}</h2>
+        <h2 className="flightDuration">{getFlightDuration(departureTime, arrivalTime)}</h2>
       </div>
     </li>
   );
