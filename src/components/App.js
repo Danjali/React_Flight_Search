@@ -177,6 +177,7 @@ function App() {
                   />
                   {!isOneWayFlight && (
                     <DatePickerInput
+                      minDate={journeyDateObj}
                       startDate={returnDateObj}
                       handleDateChange={handleDateChange}
                     />
