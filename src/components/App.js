@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/App.scss";
 import FlightData from "./FlightData";
+import Header from "./common/Header.js";
 import SearchFilterInput from "./common/SearchFilterInput";
 import DatePickerInput from "./common/DatePickerInput";
 import CustomSelectInput from "./common/CustomSelectInput";
@@ -29,7 +30,7 @@ function App() {
     returnDateObj,
     numOfPassengers,
     isOneWayFlight,
-    priceRange,
+    priceRange
   } = userInput;
 
   const handleCityChange = (selectedOption, flightType) => {
@@ -42,11 +43,11 @@ function App() {
     setUserInput({
       ...userInput,
       [keyName]: parseDate(date),
-      [`${keyName}Obj`]: date,
+      [`${keyName}Obj`]: date
     });
   };
 
-  const handlePassengerChange = (selectedOption) => {
+  const handlePassengerChange = selectedOption => {
     setUserInput({ ...userInput, numOfPassengers: selectedOption.value });
   };
 
@@ -76,7 +77,7 @@ function App() {
     setShowFlights(true);
   };
 
-  const handleTabChange = (isOneWayFlight) => {
+  const handleTabChange = isOneWayFlight => {
     setUserInput({ ...userInput, isOneWayFlight: isOneWayFlight });
   };
 
@@ -93,7 +94,7 @@ function App() {
       : setAvailableReturnFlights(newFlighData);
   };
 
-  const handlePriceChange = (priceRange) => {
+  const handlePriceChange = priceRange => {
     setUserInput({ ...userInput, priceRange: priceRange });
   };
 
@@ -122,76 +123,82 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <LoadingOverlay
-        styles={{
-          overlay: (base) => ({
-            ...base,
-            background: "rgb(7, 176, 227)",
-          }),
-        }}
-        active={showLoader}
-        spinner={<GridLoader />}
-      >
-        <div className="mainHeading">Flight Search App</div>
-        <div>
-          <div className="tab">
-            <button
-              className={`button ${isOneWayFlight && "active"}`}
-              onClick={() => handleTabChange(true)}
-            >
-              One Way
-            </button>
-            <button
-              className={`button ${!isOneWayFlight && "active"}`}
-              onClick={() => handleTabChange(false)}
-            >
-              Return
-            </button>
-          </div>
-          <div className="flightFiltetWrap">
-            <SearchFilterInput
-              excludedCity={destinationCity}
-              handleSelectChange={handleCityChange}
-              cityList={cityList}
-              flightType="oneWay"
-            />
-            <SearchFilterInput
-              excludedCity={originCity}
-              cityList={cityList}
-              handleSelectChange={handleCityChange}
-            />
-            <DatePickerInput
-              flightType="oneWay"
-              startDate={journeyDateObj}
-              handleDateChange={handleDateChange}
-            />
-            {!isOneWayFlight && (
-              <DatePickerInput
-                minDate={journeyDateObj}
-                startDate={returnDateObj}
-                handleDateChange={handleDateChange}
-              />
-            )}
-            <CustomSelectInput
-              handleSelectChange={handlePassengerChange}
-              size={numOfPassengers}
-            />
-            <PriceFilter
-              priceRange={priceRange}
-              handlePriceChange={handlePriceChange}
-            />
-            <button
-              className="button blueBtn"
-              onClick={searchFlights}
-              disabled={!isValidSearch()}
-            >
-              Search
-            </button>
-          </div>
-          {showFlights && (
-            <div>
-              <div className={returnDate ? "leftAlign" : "appContent"}>
+    <div>
+      <Header />
+      <div className="app">
+        <LoadingOverlay
+          styles={{
+            overlay: base => ({
+              ...base,
+              background: "rgb(7, 176, 227)"
+            })
+          }}
+          active={showLoader}
+          spinner={<GridLoader />}
+        >
+          <div className="mainHeading">Flight Search App</div>
+          <div>
+            <div className="mainAppWrapper">
+              <div
+                className={`flightFilterWrapper ${
+                  oneWayFlightData.length > 0 && "displayFlex"
+                }`}
+              >
+                <div className="tab">
+                  <button
+                    className={`button ${isOneWayFlight && "active"}`}
+                    onClick={() => handleTabChange(true)}
+                  >
+                    One Way
+                  </button>
+                  <button
+                    className={`button ${!isOneWayFlight && "active"}`}
+                    onClick={() => handleTabChange(false)}
+                  >
+                    Return
+                  </button>
+                </div>
+                <div className="flightFilterWrap">
+                  <SearchFilterInput
+                    excludedCity={destinationCity}
+                    handleSelectChange={handleCityChange}
+                    cityList={cityList}
+                    flightType="oneWay"
+                  />
+                  <SearchFilterInput
+                    excludedCity={originCity}
+                    cityList={cityList}
+                    handleSelectChange={handleCityChange}
+                  />
+                  <DatePickerInput
+                    flightType="oneWay"
+                    startDate={journeyDateObj}
+                    handleDateChange={handleDateChange}
+                  />
+                  {!isOneWayFlight && (
+                    <DatePickerInput
+                      startDate={returnDateObj}
+                      handleDateChange={handleDateChange}
+                    />
+                  )}
+                  <CustomSelectInput
+                    handleSelectChange={handlePassengerChange}
+                    size={numOfPassengers}
+                  />
+                  <PriceFilter
+                    priceRange={priceRange}
+                    handlePriceChange={handlePriceChange}
+                  />
+                  <button
+                    className="button blueBtn"
+                    onClick={searchFlights}
+                    disabled={!isValidSearch()}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+              {showFlights && (
                 <FlightData
                   id="flight-data"
                   data={oneWayFlightData}
@@ -200,25 +207,23 @@ function App() {
                   setShowHideDetails={handleShowHideDetails}
                   journeyDate={journeyDateObj}
                 />
-              </div>
-              {returnDate && (
-                <div className="rightAlign">
-                  <FlightData
-                    id="flight-data"
-                    data={returnFlightData}
-                    origin={destinationCity}
-                    destination={originCity}
-                    isOneWayFlight={!isOneWayFlight}
-                    isReturnFlight={true}
-                    journeyDate={returnDateObj}
-                    setShowHideDetails={handleShowHideDetails}
-                  />
-                </div>
               )}
             </div>
-          )}
-        </div>
-      </LoadingOverlay>
+            {showFlights && returnDate && (
+              <FlightData
+                id="flight-data"
+                data={returnFlightData}
+                origin={destinationCity}
+                destination={originCity}
+                isOneWayFlight={!isOneWayFlight}
+                isReturnFlight={true}
+                journeyDate={returnDateObj}
+                setShowHideDetails={handleShowHideDetails}
+              />
+            )}
+          </div>
+        </LoadingOverlay>
+      </div>
     </div>
   );
 }
