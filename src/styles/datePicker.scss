@@ -1,5 +1,3 @@
-/* //DATE picker CSS */
-
 .datePickerWrapper {
   display: flex;
   align-items: center;
@@ -12,26 +10,22 @@
   padding: 0;
   position: relative;
   cursor: pointer;
-}
-
-.datePickerWrapper .react-datepicker-wrapper {
-  margin-right: 14px;
-  padding: 7px 0 7px 7px;
-  border-right: 1px solid #757575;
-  width: 80%;
-}
-
-.datePickerWrapper .datePicker {
-  font-size: 14px;
-  border: none;
-}
-
-.datePickerWrapper .datePicker:focus {
-  outline: none;
-}
-
-.datePickerWrapper .calender {
-  border-left: 1px solid #757575;
-  position: absolute;
-  right: 0;
+  .react-datepicker-wrapper {
+    margin-right: 14px;
+    padding: 7px 0 7px 7px;
+    border-right: 1px solid #757575;
+    width: 80%;
+  }
+  .datePicker {
+    font-size: 14px;
+    border: none;
+    &:focus {
+      outline: none;
+    }
+  }
+  .calender {
+    border-left: 1px solid #757575;
+    position: absolute;
+    right: 0;
+  }
 }
