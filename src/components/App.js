@@ -121,6 +121,19 @@ function App() {
       setLoader(false);
     })();
   }, []);
+  
+  useEffect(() => {
+    if (showFlights && isValidSearch()) {
+      searchFlights();
+    }
+  }, [
+    originCity,
+    destinationCity,
+    numOfPassengers,
+    priceRange,
+    journeyDate,
+    returnDate
+  ]);
 
   return (
     <div>
