@@ -74,6 +74,7 @@ function App() {
   useEffect(() => {
     (async () => {
       const flightResponse = await fetchFlightData();
+      console.log(flightResponse)
       if (flightResponse) {
         setFlightData(flightResponse.data);
         setCityList(flightResponse.uniqueCity);
@@ -82,7 +83,7 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
+    <div className="app">{console.log("aaa")}
       <div className="appHeader">Flight Search App</div>
       <div>
         <button

@@ -1,6 +1,6 @@
 import React, { useRef as defaultUseRef }from "react";
 import { shallow, mount } from "enzyme";
-import DatePickerInput from "./DatePicker";
+import DatePickerInput from "./DatePickerInput";
 
 describe("<DatePickerInput/>", () => {
   let useRef;

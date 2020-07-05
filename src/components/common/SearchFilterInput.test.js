@@ -23,7 +23,6 @@ describe("<SearchFilter/>", () => {
   });
   it("verifies select component with props", () => {
     expect(search.props().placeholder).toBe("Enter Origin City");
-    expect(search.props().isClearable).toBe(true);
     expect(search.props().options).toEqual([
       { value: "ABC", label: "ABC" },
       { value: "XYZ", label: "XYZ" },

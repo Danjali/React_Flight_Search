@@ -1,40 +1,21 @@
 import React from 'react';
-// import { render } from '@testing-library/react';
 import App from './App';
-import {shallow, mount, render} from 'enzyme';
-// import FlightData from './FlightData';
 import { renderHook, act} from "@testing-library/react-hooks";
-import {fetchFlightData} from "../api/api";
-
+import  * as FooModule from "../api/api";
+import {flightData} from "../constants/constants"
 describe('<App/>', () => {
-  // it('renders App', () => {
-  //   // await act( async () => mount(<App />));
-  //   // const wrapper = shallow(<App/>);
-  //   expect(wrapper.find('.appHeader').text()).toEqual('Flight Search App');
-  //   expect(wrapper.find('#flight-data').length).toEqual(1);
-  // // });
-  // let props;
-  // let wrapper;
-  // let useEffect;
-  // let aa =[{},{}]
-  // jest.mock("../api/api");
-  // const mockUseEffect = () => {
-  //   useEffect.mockImplementationOnce(f => {return aa});
-  // };
-  // useEffect = jest.spyOn(React, "useEffect");
-  
-//   it('renders App', () => { 
-//     wrapper = render(<App {...props} />);
-//     // mockUseEffect()
-//     // mockUseEffect()
+  beforeEach(async() => {
 
-//     console.log(wrapper.debug())
-//   });
-//   it('should render names from API', async(done) => {
-//     await act(async () => {
-//       wrapper = shallow(<App {...props}/>);
-//     });
-//     console.log(wrapper.debug())
-//     done();
-// });
+  });
+  
+  it('renders App', async() => { 
+    console.log(FooModule.fetchFlightData)
+    const response = await FooModule.fetchFlightData();
+    let responseData = {
+      data: flightData,
+      uniqueCity: {value: 'Pune', label: 'Pune'}
+    }
+    FooModule.fetchFlightData = jest.fn().mockReturnValue(responseData);
+    const aa = await act(async () => renderHook(() => App()));
+  });
 });

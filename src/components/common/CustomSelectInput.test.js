@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import CustomSelectInput from "./CustomSelectInput";
-import { passengerSize } from "../../constant/constants";
+import { passengerSize } from "../../constants/constants";
 
 describe("<CustomSelectInput/>", () => {
   let wrapper;
