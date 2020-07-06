@@ -117,6 +117,7 @@ describe("testing of utility functions", () => {
       },
     ];
     expect(processedData[1].isMultiLine).toBe(true);
+    expect(processedData[1].layOverTime).toBe(80);
     expect(processedData).toEqual(expectedProcessedData);
   });
 });
