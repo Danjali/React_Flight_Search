@@ -77,7 +77,10 @@ const FlightData = ({
               <span className="flightDestination">{item.destination}</span>
             </div>
             <div className="flightInfo">
-              <h2 className={`"timeDuration" ${item.isMultiLine && "green"}`}>
+              <h2
+                id="timeDuration"
+                className={`"timeDuration" ${item.isMultiLine && "green"}`}
+              >
                 {getFlightDuration(item.departureTime, item.arrivalTime)}
               </h2>
               <span className="typeOfTravel">
