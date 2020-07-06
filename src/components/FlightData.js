@@ -24,14 +24,17 @@ const FlightData = ({
           />
         </div>
         <div>
-          <h3>
+          <h3 className="originToDestination">
             {origin} to {destination}
           </h3>
           <p className="subInfo">
-            <span>
+            <span className="flightsFound">
               {data.length} flight{data.length > 1 ? "s" : ""} found
             </span>
-            <span> {formatDateString(journeyDate)}</span>
+            <span className="flightsFoundDate">
+              {" "}
+              {formatDateString(journeyDate)}
+            </span>
           </p>
         </div>
       </div>
